@@ -90,20 +90,25 @@ public class WordFind
 	}
 	public static void findWord(char[][] myArray, String myWord, int rows, int columns)
 	{
-		boolean isFound;
+		boolean isFound=false;
 		for (int i=0;i<rows;i++)
 	        {
 	                for (int j=0;j<columns;j++)
 			{
+				/* Consider removing boolean statements by returning
+				 * String isFound in direction function
+				 * and creating switch statement
+				 * */
 				boolean isNorth = north(myArray,myWord,i,j);
-	                        boolean isSouth = south(myArray,myWord,i,j);
+	         		boolean isSouth = south(myArray,myWord,i,j);
 			        boolean isEast = east(myArray,myWord,i,j);
 			        boolean isWest = west(myArray,myWord,i,j);
 			        boolean isNortheast = northeast(myArray,myWord,i,j);
 			        boolean isNorthwest = northwest(myArray,myWord,i,j);
 			        boolean isSoutheast = southeast(myArray,myWord,i,j);
 			        boolean isSouthwest = southwest(myArray,myWord,i,j);
-			        if(WordFind.isFound = (isNorth||isSouth||isEast||isWest||isNortheast||isNorthwest||isSoutheast||isSouthwest))
+			        isFound = (isNorth||isSouth||isEast||isWest||isNortheast||isNorthwest||isSoutheast||isSouthwest);
+				if (isFound)
 			    	{
 					if (isNorth)
 				        	System.out.println(myWord + " was found starting at " + (i+1) + "," + (j+1) + " and oriented North");      
@@ -125,12 +130,8 @@ public class WordFind
 				}
 			}
 		}
-		/* This code is supposed to indicate when a word is not found.
-		 * It does not work because there are scope issues with the variable isFound
-		 *
-		 *
-		 * if (!isFound)
-			System.out.println(myWord + " was not found.");*/
+		if (!isFound)
+			System.out.println(myWord + " was not found.");
 	}
 
 	public static void main(String[] args) throws IOException
