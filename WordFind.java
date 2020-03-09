@@ -90,7 +90,7 @@ public class WordFind
 	}
 	public static void findWord(char[][] myArray, String myWord, int rows, int columns)
 	{
-		boolean isFound;
+		boolean isFound=false;
 		for (int i=0;i<rows;i++)
 	        {
 	                for (int j=0;j<columns;j++)
@@ -122,12 +122,12 @@ public class WordFind
 			                        System.out.println(myWord + " was found starting at " + (i+1) + "," + (j+1) + " and oriented Southeast");  
 					if (isSouthwest)						 
                                                 System.out.println(myWord + " was found starting at " + (i+1) + "," + (j+1) + " and oriented Southwest");  
-					break;					 
+					return;					 
 				}
 			}
 		}
-//		if (!isFound)
-//			System.out.println(myWord + " was not found.");
+		if (!isFound)
+			System.out.println(myWord + " was not found.");
 	}
 
 	public static void main(String[] args) throws IOException
@@ -161,6 +161,7 @@ public class WordFind
 			else 
 				columns++;
 		}
+		br1.close();
 		columns=((columns/rows)-1)/2;
 		rows=(rows-1)/2;
 		/* read file again
@@ -187,6 +188,7 @@ public class WordFind
 				}
 			}	
 		}
+		br2.close();
 		/* if there is not a second argument,
 		 * prompt user for word to find */
 		if (args.length==1)
