@@ -2,8 +2,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.*;
+import java.lang.*;
 
 public class WordFind
 {
@@ -90,15 +90,11 @@ public class WordFind
 	}
 	public static void findWord(char[][] myArray, String myWord, int rows, int columns)
 	{
-		boolean isFound=false;
+		boolean isFound;
 		for (int i=0;i<rows;i++)
 	        {
 	                for (int j=0;j<columns;j++)
 			{
-				/* Consider removing boolean statements by returning
-				 * String isFound in direction function
-				 * and creating switch statement
-				 * */
 				boolean isNorth = north(myArray,myWord,i,j);
 	         		boolean isSouth = south(myArray,myWord,i,j);
 			        boolean isEast = east(myArray,myWord,i,j);
@@ -130,32 +126,58 @@ public class WordFind
 				}
 			}
 		}
-		if (!isFound)
-			System.out.println(myWord + " was not found.");
+//		if (!isFound)
+//			System.out.println(myWord + " was not found.");
 	}
 
 	public static void main(String[] args) throws IOException
 	{
-		//declare variables
+		/* checks that an input file was specified
+		 * if not, the program quits */
+		if (args.length==0)
+		{
+			System.out.println("ERROR: no input file specified.");
+			System.exit(1);
+		}
 		File f=new File(/*"cashiers.txt"*/args[0]);
-		FileReader fr=new FileReader(f);
-		BufferedReader br=new BufferedReader(fr);
-		int c=0;
-		/* 
-		 * The variables rows and columns are predetermined to be 15,
-		 * but they should be dependent on the number of rows/columns in arg[0]
-		 */
-		int rowCount=0,columnCount=0,rows=15,columns=15;
+		/* checks that the input file exists
+		 * if not, the program quits */
+		if(!(f.exists()))
+		{
+			System.out.println("ERROR: could not open input file.");
+			System.exit(2);
+		}
+		/* read file
+		 * record number of rows and columns */
+		FileReader fr1=new FileReader(f);
+		BufferedReader br1=new BufferedReader(fr1);
+		int c1=0; 
+		int rows=0,columns=0;
+		while ((c1=br1.read())!=-1)
+		{
+			char character1 = (char) c1;
+			if (character1=='\n')
+				rows++;
+			else 
+				columns++;
+		}
+		columns=((columns/rows)-1)/2;
+		rows=(rows-1)/2;
+		/* read file again
+		 * record data into 2d array */
+		FileReader fr2=new FileReader(f);
+		BufferedReader br2=new BufferedReader(fr2);
+		int c2=0;
+		int rowCount=0, columnCount=0;
 		char[][] myArray = new char[rows][columns];
 		String myWord = new String();
-		//read arg[0] file
-		while((c=br.read()) != -1)
+		while((c2=br2.read())!=-1)
 		{
-			char character = (char) c;
+			char character2 = (char) c2;
 			//put char in 2d array
-			if ((character!='-')&&(character!='|')&&(character!='\n'))
+			if ((character2!='-')&&(character2!='|')&&(character2!='\n'))
 			{
-				myArray[rowCount][columnCount]=character;
+				myArray[rowCount][columnCount]=character2;
 				columnCount++;
 
 				if (columnCount==columns)
@@ -165,20 +187,19 @@ public class WordFind
 				}
 			}	
 		}
-		//print array
-		printArray(myArray,rows,columns);
 		/* if there is not a second argument,
 		 * prompt user for word to find */
 		if (args.length==1)
 		{
 			Scanner myObj = new Scanner(System.in);
 			System.out.println("Enter word:");
-			myWord=myObj.nextLine();
+			myWord=myObj.nextLine().replaceAll(" ","").toUpperCase();
 			do{
 				findWord(myArray,myWord,rows,columns);
 				System.out.println("Enter word:");
-				myWord=myObj.nextLine();
+				myWord=myObj.nextLine().replaceAll(" ","").toUpperCase();
 			}while(myWord.length()!=0);
+			myObj.close();
 		}
 		/* if there is a second argument,
 		 * read in words from file */
@@ -188,7 +209,7 @@ public class WordFind
 			Scanner myReader = new Scanner(myFile);
 			while (myReader.hasNextLine())
 			{
-				String word = myReader.nextLine();
+				String word = myReader.nextLine().replaceAll(" ","").toUpperCase();
 				findWord(myArray,word,rows,columns);
 
 			}
