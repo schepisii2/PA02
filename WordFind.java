@@ -1,3 +1,8 @@
+/* 
+ * Isabella Schepisi
+ * PA02 - WordFind
+ * CSCI 271 001
+ */
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
