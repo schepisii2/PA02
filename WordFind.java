@@ -1,4 +1,3 @@
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -149,48 +148,42 @@ public class WordFind
 		}
 		/* read file
 		 * record number of rows and columns */
-		FileReader fr1=new FileReader(f);
-		BufferedReader br1=new BufferedReader(fr1);
-		int c1=0; 
 		int rows=0,columns=0;
-		while ((c1=br1.read())!=-1)
+		Scanner s1 = new Scanner(f);
+		while (s1.hasNextLine())
 		{
-			char character1 = (char) c1;
-			if (character1=='\n')
-				rows++;
-			else 
-				columns++;
+			String temp1 = new String();
+			temp1=s1.nextLine();
+			columns=temp1.length();
+			rows++;
 		}
-		br1.close();
-		columns=((columns/rows)-1)/2;
+		s1.close();
 		rows=(rows-1)/2;
+		columns=(columns-1)/2;
 		/* read file again
 		 * record data into 2d array */
-		FileReader fr2=new FileReader(f);
-		BufferedReader br2=new BufferedReader(fr2);
-		int c2=0;
-		int rowCount=0, columnCount=0;
 		char[][] myArray = new char[rows][columns];
-		String myWord = new String();
-		while((c2=br2.read())!=-1)
+		int r=0;
+		Scanner s2 = new Scanner(f);
+		while (s2.hasNextLine())
 		{
-			char character2 = (char) c2;
-			//put char in 2d array
-			if ((character2!='-')&&(character2!='|')&&(character2!='\n'))
+			String temp2 = new String();
+			temp2=s2.nextLine().replace("-","").replace("|","");
+			System.out.println(temp2);
+			if (!(temp2.length()==0))
 			{
-				myArray[rowCount][columnCount]=character2;
-				columnCount++;
-
-				if (columnCount==columns)
+				for (int c=0;c<columns;c++)
 				{
-					columnCount=0;
-					rowCount++;
+					myArray[r][c]=temp2.charAt(c);
 				}
+				r++;
 			}	
 		}
-		br2.close();
+		s2.close();
+		printArray(myArray,rows,columns);
 		/* if there is not a second argument,
 		 * prompt user for word to find */
+		String myWord = new String();
 		if (args.length==1)
 		{
 			Scanner myObj = new Scanner(System.in);
