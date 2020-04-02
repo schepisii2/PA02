@@ -94,19 +94,20 @@ public class WordFind
 	}
 	public static void findWord(char[][] myArray, String myWord, int rows, int columns)
 	{
+		String tempWord = myWord.replaceAll(" ","");
 		boolean isFound=false;
 		for (int i=0;i<rows;i++)
 	        {
 	                for (int j=0;j<columns;j++)
 			{
-				boolean isNorth = north(myArray,myWord,i,j);
-	         		boolean isSouth = south(myArray,myWord,i,j);
-			        boolean isEast = east(myArray,myWord,i,j);
-			        boolean isWest = west(myArray,myWord,i,j);
-			        boolean isNortheast = northeast(myArray,myWord,i,j);
-			        boolean isNorthwest = northwest(myArray,myWord,i,j);
-			        boolean isSoutheast = southeast(myArray,myWord,i,j);
-			        boolean isSouthwest = southwest(myArray,myWord,i,j);
+				boolean isNorth = north(myArray,tempWord,i,j);
+	         		boolean isSouth = south(myArray,tempWord,i,j);
+			        boolean isEast = east(myArray,tempWord,i,j);
+			        boolean isWest = west(myArray,tempWord,i,j);
+			        boolean isNortheast = northeast(myArray,tempWord,i,j);
+			        boolean isNorthwest = northwest(myArray,tempWord,i,j);
+			        boolean isSoutheast = southeast(myArray,tempWord,i,j);
+			        boolean isSouthwest = southwest(myArray,tempWord,i,j);
 			        isFound = (isNorth||isSouth||isEast||isWest||isNortheast||isNorthwest||isSoutheast||isSouthwest);
 				if (isFound)
 			    	{
@@ -174,7 +175,6 @@ public class WordFind
 		{
 			String temp2 = new String();
 			temp2=s2.nextLine().replace("-","").replace("|","");
-			System.out.println(temp2);
 			if (!(temp2.length()==0))
 			{
 				for (int c=0;c<columns;c++)
@@ -185,18 +185,17 @@ public class WordFind
 			}	
 		}
 		s2.close();
-		printArray(myArray,rows,columns);
 		/* if there is not a second argument,
 		 * prompt user for word to find */
 		String myWord = new String();
 		if (args.length==1)
 		{
 			Scanner myObj = new Scanner(System.in);
-			System.out.println("Enter word:");
-			myWord=myObj.nextLine().replaceAll(" ","").toUpperCase();
+			System.out.print("Enter word: ");
+			myWord=myObj.nextLine().toUpperCase();
 			do{
 				findWord(myArray,myWord,rows,columns);
-				System.out.println("Enter word:");
+				System.out.print("Enter word: ");
 				myWord=myObj.nextLine().replaceAll(" ","").toUpperCase();
 			}while(myWord.length()!=0);
 			myObj.close();
